@@ -3,229 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Consultant Informatique Industrielle & .NET | Votre Nom</title>
-    <meta name="description" content="Expert en solutions .NET et systèmes industriels haute disponibilité.">
-    
-    <meta property="og:title" content="Portfolio - Votre Nom">
-    <meta property="og:description" content="Découvrez mon expertise en informatique industrielle et développement .NET.">
-    <meta property="og:type" content="website">
-
+    <title>Dossier de Compétences - DDH</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: "Industrial Slate & Azure". Background: slate-50 (warm neutral), Text: slate-800, Accents: blue-600 to blue-800 to reflect technical/industrial precision, with emerald-600 for positive indicators. -->
+    
+    <!-- Application Structure Plan: 
+    1. Header: Quick identification (Trigram, Title) and core value proposition.
+    2. Dashboard / Vue d'ensemble: A quick visual summary of expertise using a Radar Chart and key metrics. This allows immediate assessment of his multi-disciplinary profile.
+    3. Matrice Interactive (Skills): A filterable grid of technical skills. Avoids a wall of text and lets the user find specific technologies (e.g., "What databases does he know?").
+    4. Parcours Opérationnel (Missions): A split-view interactive timeline. Left side lists missions chronologically; clicking one reveals deep details on the right. This keeps the layout clean while offering deep dives into specific experiences.
+    5. Formations: Clean, simple cards at the bottom for background verification. 
+    -->
+
+    <!-- Visualization & Content Choices: 
+    - Expertise Balance -> Radar Chart (Chart.js): Goal is to show he is a hybrid profile (Dev .NET + Vision + Industry). Radar is perfect for multi-axis skill evaluation.
+    - Technical Skills -> Filterable Badges (HTML/JS): Goal is organization and quick retrieval.
+    - Mission History -> Master-Detail View (HTML/JS): Goal is to present long text (mission details) without overwhelming the user.
+    - ALL visuals use Canvas or styled HTML with Unicode icons.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .glass-morphism { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        .skill-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+        /* Essential Chart Container Styling to prevent overflow and ensure responsiveness */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px; /* Limits maximum width on large screens */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Controlled base height */
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        
+        /* Custom scrollbar for inner content if needed */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-    <nav class="sticky top-0 z-50 glass-morphism border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="font-bold text-2xl text-blue-600 tracking-tight underline decoration-2 underline-offset-4">VOTRE NOM</div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#expertise" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Expertise</a>
-                    <a href="#parcours" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Parcours</a>
-                    <a href="votre-cv.pdf" target="_blank" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition-all shadow-sm">
-                        <i class="fas fa-file-pdf mr-2"></i>CV PDF
-                    </a>
-                </div>
+    <!-- Header Section -->
+    <header class="bg-slate-900 text-white pt-12 pb-16 px-6 border-b-4 border-blue-600 shadow-lg">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-end gap-6">
+            <div>
+                <h2 class="text-blue-400 font-bold tracking-widest uppercase text-sm mb-2">Profil Consultant • Trigramme : DDH</h2>
+                <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-3">Expert Développeur Logiciel,<br><span class="text-blue-300">Vision & Informatique Industrielle</span></h1>
+                <p class="text-slate-300 max-w-2xl text-lg">Plus de 20 ans d'expertise dans la conception d'architectures logicielles critiques, l'intégration de systèmes d'IA (Deep Learning) pour le contrôle qualité et l'automatisation industrielle.</p>
             </div>
-        </div>
-    </nav>
-
-    <header class="relative py-24 bg-white overflow-hidden">
-        <div class="absolute inset-0 opacity-[0.03] pointer-events-none">
-            <svg width="100%" height="100%"><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"/></pattern><rect width="100%" height="100%" fill="url(#grid)" /></svg>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-            <span class="inline-block px-4 py-1.5 mb-6 text-sm font-semibold tracking-wide text-blue-600 uppercase bg-blue-50 rounded-full">Disponible pour missions</span>
-            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
-                Consultant Informatique <br><span class="text-blue-600">Industrielle & .NET</span>
-            </h1>
-            <p class="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">
-                J'accompagne les entreprises dans la digitalisation de leurs processus de production via des architectures logicielles robustes et scalables.
-            </p>
-            <div class="flex justify-center gap-4">
-                <a href="#parcours" class="bg-slate-900 text-white px-8 py-3 rounded-lg font-bold hover:bg-slate-800 transition-all">Voir mes missions</a>
-                <a href="mailto:votre@email.com" class="bg-white border border-slate-200 text-slate-700 px-8 py-3 rounded-lg font-bold hover:bg-slate-50 transition-all">Me contacter</a>
+            <div class="flex gap-4">
+                <div class="bg-slate-800 rounded-lg p-4 border border-slate-700 text-center">
+                    <span class="block text-2xl font-bold text-white">4</span>
+                    <span class="text-xs text-slate-400 uppercase tracking-wider">Secteurs Clés</span>
+                </div>
+                <div class="bg-slate-800 rounded-lg p-4 border border-slate-700 text-center">
+                    <span class="block text-2xl font-bold text-blue-400">+20</span>
+                    <span class="text-xs text-slate-400 uppercase tracking-wider">Années Exp.</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <section id="expertise" class="py-24 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Domaines d'Expertise</h2>
-                <div class="h-1 w-20 bg-blue-600 mx-auto"></div>
-            </div>
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-20 -mt-10">
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="skill-card bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6 text-xl">
-                        <i class="fas fa-code"></i>
+        <!-- Section 1: Dashboard / Overview -->
+        <section class="bg-white rounded-xl shadow-md p-8 border border-slate-200">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 border-l-4 border-blue-600 pl-3">📊 Vue d'ensemble de l'expertise</h2>
+            <p class="text-slate-600 mb-8 max-w-3xl">
+                Cette section présente l'équilibre des compétences fondamentales du consultant. Le graphique illustre sa polyvalence, alliant le développement logiciel pur (.NET) à une forte spécialisation en vision machine (IA) et en informatique de terrain (Automatisme).
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Chart Container -->
+                <div class="w-full">
+                    <div class="chart-container">
+                        <canvas id="expertiseChart"></canvas>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Développement .NET</h3>
-                    <ul class="text-slate-600 space-y-2">
-                        <li>• Architecture C# / .NET 8</li>
-                        <li>• ASP.NET Core & Web API</li>
-                        <li>• Entity Framework Core</li>
-                        <li>• Microservices & Docker</li>
-                    </ul>
                 </div>
-
-                <div class="skill-card bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mb-6 text-xl">
-                        <i class="fas fa-industry"></i>
+                
+                <!-- Key Highlights -->
+                <div class="space-y-6">
+                    <div class="bg-blue-50 rounded-lg p-5 border border-blue-100">
+                        <h3 class="font-bold text-blue-900 mb-2 flex items-center gap-2">👁️ Vision Machine & IA</h3>
+                        <p class="text-sm text-blue-800">Spécialiste de l'inspection automatique. Maîtrise de la chaîne complète (optique, éclairage) et expertise en <strong>Deep Learning</strong> pour la résolution de problèmes d'identification complexes.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Informatique Industrielle</h3>
-                    <ul class="text-slate-600 space-y-2">
-                        <li>• Communication OPC-UA / MQTT</li>
-                        <li>• Protocoles Modbus & S7</li>
-                        <li>• Supervision (SCADA)</li>
-                        <li>• Temps réel & Multithreading</li>
-                    </ul>
-                </div>
-
-                <div class="skill-card bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mb-6 text-xl">
-                        <i class="fas fa-clipboard-check"></i>
+                    <div class="bg-emerald-50 rounded-lg p-5 border border-emerald-100">
+                        <h3 class="font-bold text-emerald-900 mb-2 flex items-center gap-2">⚙️ Informatique Industrielle</h3>
+                        <p class="text-sm text-emerald-800">Conception de bancs de test robustes, pilotage d'organes de production (E/S, moteurs) via protocoles industriels et solutions <strong>Beckhoff</strong>.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Consulting & Audit</h3>
-                    <ul class="text-slate-600 space-y-2">
-                        <li>• Analyse de besoins & Chiffrage</li>
-                        <li>• Rédaction de spécifications</li>
-                        <li>• Audit de performance code</li>
-                        <li>• Accompagnement DevOps</li>
-                    </ul>
+                    <div class="bg-indigo-50 rounded-lg p-5 border border-indigo-100">
+                        <h3 class="font-bold text-indigo-900 mb-2 flex items-center gap-2">💻 Développement Logiciel .NET</h3>
+                        <p class="text-sm text-indigo-800">Conception d'applications fiables utilisant les patterns modernes (<strong>MVVM, Clean Code</strong>). Interfaces utilisateur (WPF) ergonomiques pour environnements intensifs.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="parcours" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-slate-900 mb-12 flex items-center">
-                <span class="bg-blue-600 text-white p-2 rounded-lg mr-4"><i class="fas fa-route"></i></span>
-                Parcours Opérationnel
-            </h2>
+        <!-- Section 2: Technical Skills Matrix -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 border-l-4 border-blue-600 pl-3">🔧 Matrice des Compétences Techniques</h2>
+            <p class="text-slate-600 mb-6">
+                Explorez l'arsenal technologique du consultant. Utilisez les filtres ci-dessous pour isoler les outils par catégorie (langages, bibliothèques, matériel industriel, etc.), démontrant une capacité d'adaptation à des environnements hétérogènes.
+            </p>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-4 space-y-3" id="mission-list"></div>
-                <div class="lg:col-span-8 bg-slate-50 rounded-2xl p-8 border border-slate-200 min-h-[450px]" id="mission-details"></div>
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-2 mb-8" id="skill-filters">
+                <button data-filter="all" class="filter-btn bg-slate-800 text-white px-4 py-2 rounded-full text-sm font-semibold transition-colors hover:bg-blue-600">Tout afficher</button>
+                <button data-filter="lang" class="filter-btn bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold transition-colors hover:bg-slate-300">Langages</button>
+                <button data-filter="vision" class="filter-btn bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold transition-colors hover:bg-slate-300">Vision & IA</button>
+                <button data-filter="hw" class="filter-btn bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold transition-colors hover:bg-slate-300">Matériel & Auto</button>
+                <button data-filter="data" class="filter-btn bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold transition-colors hover:bg-slate-300">Data & Méthodes</button>
             </div>
-        </div>
-    </section>
 
-    <footer class="bg-slate-900 text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <div class="text-2xl font-bold mb-4">Prêt à collaborer ?</div>
-            <p class="text-slate-400 mb-8">Contactez-moi pour discuter de vos projets de transformation industrielle.</p>
-            <div class="flex justify-center space-x-6 text-2xl">
-                <a href="#" class="hover:text-blue-400"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="hover:text-blue-400"><i class="fab fa-github"></i></a>
-                <a href="mailto:votre@email.com" class="hover:text-blue-400"><i class="fas fa-envelope"></i></a>
+            <!-- Skills Grid -->
+            <div id="skills-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Populated by JS -->
             </div>
-            <div class="mt-12 pt-8 border-t border-slate-800 text-slate-500 text-sm">
-                © 2026 - Consultant Expert .NET & Industrie 4.0
+        </section>
+
+        <!-- Section 3: Operational Experience (Interactive Timeline) -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 border-l-4 border-blue-600 pl-3">🚀 Parcours Opérationnel</h2>
+            <p class="text-slate-600 mb-8">
+                Découvrez les missions clés réalisées. Cliquez sur une mission dans la liste chronologique à gauche pour afficher le détail du projet, le rôle exercé, les réalisations concrètes et l'environnement technique associé sur la droite.
+            </p>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Mission List (Timeline) -->
+                <div class="w-full lg:w-1/3 flex flex-col gap-3 relative" id="mission-list">
+                    <!-- Vertical line indicator -->
+                    <div class="absolute left-4 top-4 bottom-4 w-0.5 bg-slate-200 z-0 hidden lg:block"></div>
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Mission Details Panel -->
+                <div class="w-full lg:w-2/3">
+                    <div id="mission-details" class="bg-white rounded-xl shadow-lg border border-slate-200 p-8 h-full transition-all duration-300 min-h-[400px]">
+                        <!-- Populated by JS -->
+                        <div class="flex items-center justify-center h-full text-slate-400">
+                            Sélectionnez une mission pour voir les détails.
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
+        </section>
 
-    <script>
-        // Vos données de missions (À personnaliser ici)
-        const missions = [
-            {
-                id: 'm1',
-                company: 'Grand Groupe Automobile',
-                role: 'Architecte Logiciel Industriel',
-                date: '2023 - 2026',
-                location: 'Région Parisienne',
-                achievements: [
-                    'Conception d\'une passerelle IIoT en .NET 8 collectant 10k tags/seconde',
-                    'Mise en place d\'une architecture hexagonale pour faciliter la maintenance',
-                    'Réduction de la latence de communication entre PLC et ERP de 40%'
-                ]
-            },
-            {
-                id: 'm2',
-                company: 'Leader Agroalimentaire',
-                role: 'Consultant .NET Senior',
-                date: '2021 - 2023',
-                location: 'Lyon / Remote',
-                achievements: [
-                    'Développement d\'une interface de supervision Web temps réel via SignalR',
-                    'Audit et refactorisation d\'un système de traçabilité legacy',
-                    'Formation des équipes internes aux bonnes pratiques Clean Code'
-                ]
-            }
-        ];
-
-        function renderMissionDetails(id) {
-            const mission = missions.find(m => m.id === id);
-            if (!mission) return;
-
-            const detailsContainer = document.getElementById('mission-details');
-            detailsContainer.innerHTML = `
-                <div class="animate-fade-in">
-                    <div class="flex flex-wrap justify-between items-start mb-8">
+        <!-- Section 4: Education & Languages -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-12">
+            <!-- Education -->
+            <div class="bg-white rounded-xl shadow-md p-8 border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">🎓 Formations & Certifications</h2>
+                <ul class="space-y-4">
+                    <li class="flex gap-4">
+                        <div class="text-blue-600 font-bold mt-1">1998</div>
                         <div>
-                            <h3 class="text-2xl font-bold text-slate-900">${mission.role}</h3>
-                            <div class="text-blue-600 font-semibold text-lg uppercase tracking-wider">${mission.company}</div>
+                            <p class="font-bold text-slate-800">BTS Informatique Industrielle</p>
+                            <p class="text-sm text-slate-500">École Immaculée Conception, Laval</p>
                         </div>
-                        <div class="bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm">
-                            <div class="text-slate-600 font-bold">${mission.date}</div>
-                            <div class="text-slate-400 text-xs uppercase font-medium">${mission.location}</div>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="text-blue-600 font-bold mt-1">1996</div>
+                        <div>
+                            <p class="font-bold text-slate-800">Bac F2 (Électronique)</p>
+                            <p class="text-sm text-slate-500">Lycée Gabriel Touchard</p>
                         </div>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="text-blue-600 font-bold mt-1">Cont.</div>
+                        <div>
+                            <p class="font-bold text-slate-800">Expertise Autodidacte (IA)</p>
+                            <p class="text-sm text-slate-500">Développement continu en Deep Learning, réseaux de neurones CNN, veille technologique.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Languages -->
+            <div class="bg-white rounded-xl shadow-md p-8 border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">🌍 Langues & Secteurs</h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-semibold text-slate-700 mb-2">Anglais</h3>
+                    <div class="flex items-center gap-3">
+                        <div class="flex gap-1">
+                            <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+                            <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+                            <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-200"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-200"></span>
+                        </div>
+                        <span class="text-sm font-bold text-slate-800">Intermédiaire</span>
                     </div>
-                    <div class="space-y-4">
-                        <h4 class="font-bold text-slate-800 uppercase text-sm tracking-widest">Réalisations clés :</h4>
-                        <ul class="space-y-4">
-                            ${mission.achievements.map(a => `
-                                <li class="flex items-start group">
-                                    <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs mr-4 mt-0.5 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                    <span class="text-slate-700 leading-relaxed">${a}</span>
-                                </li>
-                            `).join('')}
-                        </ul>
+                    <p class="text-xs text-slate-500 mt-1">Capacité à exploiter des documentations techniques complexes et à échanger avec des partenaires internationaux.</p>
+                </div>
+
+                <hr class="border-slate-100 my-4">
+
+                <div>
+                    <h3 class="font-semibold text-slate-700 mb-3">Secteurs d'intervention</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded">Automobile</span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded">Aéronautique (H24)</span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded">Électronique</span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded">Agroalimentaire & Pharma</span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded">Logistique & Courrier</span>
                     </div>
                 </div>
-            `;
+            </div>
+        </section>
 
-            document.querySelectorAll('.mission-item').forEach(btn => {
-                btn.classList.remove('border-blue-600', 'bg-blue-50', 'shadow-md', 'ring-1', 'ring-blue-600/20');
-                btn.classList.add('border-slate-200', 'bg-white');
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. RADAR CHART (Chart.js) ---
+            const ctx = document.getElementById('expertiseChart').getContext('2d');
+            
+            // Data mimicking the relative strength in different areas
+            const data = {
+                labels: [
+                    'Développement .NET / C#', 
+                    'Vision Machine', 
+                    'Deep Learning (IA)', 
+                    'Automatisme (Beckhoff)', 
+                    'Bases de Données (SQL)', 
+                    'Gestion de Projet Indus.'
+                ],
+                datasets: [{
+                    label: 'Niveau d\'Expertise',
+                    data: [95, 90, 80, 85, 80, 75], // Subjective scores based on resume
+                    backgroundColor: 'rgba(37, 99, 235, 0.2)', // Tailwind blue-600 with opacity
+                    borderColor: 'rgba(37, 99, 235, 1)',
+                    pointBackgroundColor: 'rgba(5, 150, 105, 1)', // Tailwind emerald-600
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(5, 150, 105, 1)',
+                    borderWidth: 2,
+                }]
+            };
+
+            const config = {
+                type: 'radar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL for chart-container styling to work
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(148, 163, 184, 0.3)' }, // slate-400
+                            grid: { color: 'rgba(148, 163, 184, 0.3)' },
+                            pointLabels: {
+                                font: { size: 11, family: "'Inter', sans-serif" },
+                                color: '#1e293b' // slate-800
+                            },
+                            ticks: {
+                                display: false, // Hide numeric scale
+                                min: 0,
+                                max: 100
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)', // slate-900
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    let val = context.raw;
+                                    if(val > 90) return 'Expertise Avancée';
+                                    if(val > 80) return 'Très Bonne Maîtrise';
+                                    return 'Bonne Maîtrise';
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            new Chart(ctx, config);
+
+
+            // --- 2. SKILLS MATRIX DATA & LOGIC ---
+            const skills = [
+                { name: 'C#', cat: 'lang', icon: '⌨️' },
+                { name: 'Python', cat: 'lang', icon: '🐍' },
+                { name: 'C++', cat: 'lang', icon: '⚡' },
+                { name: 'VB.NET / VB6', cat: 'lang', icon: '📜' },
+                { name: 'SQL', cat: 'lang', icon: '🗄️' },
+                { name: 'ASP.NET', cat: 'lang', icon: '🌐' },
+                
+                { name: 'Cognex (VisionPro)', cat: 'vision', icon: '👁️' },
+                { name: 'MVTec Halcon', cat: 'vision', icon: '👁️' },
+                { name: 'OpenCV', cat: 'vision', icon: '🖼️' },
+                { name: 'Deep Learning / CNN', cat: 'vision', icon: '🧠' },
+                { name: 'Cognex DL Studio', cat: 'vision', icon: '🧠' },
+
+                { name: 'Contrôleurs Beckhoff', cat: 'hw', icon: '⚙️' },
+                { name: 'Caméras GigE/USB3', cat: 'hw', icon: '📷' },
+                { name: 'Protocoles Modbus', cat: 'hw', icon: '🔌' },
+                { name: 'Imprimantes Zebra (ZPL)', cat: 'hw', icon: '🖨️' },
+                
+                { name: 'Visual Studio', cat: 'data', icon: '🛠️' },
+                { name: 'LabView', cat: 'data', icon: '🔬' },
+                { name: 'WPF / MVVM', cat: 'data', icon: '📐' },
+                { name: 'SQL Server / Oracle', cat: 'data', icon: '💾' },
+                { name: 'POO / Clean Code', cat: 'data', icon: '📏' }
+            ];
+
+            const skillsGrid = document.getElementById('skills-grid');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            function renderSkills(filterCat) {
+                skillsGrid.innerHTML = '';
+                skills.forEach(skill => {
+                    if (filterCat === 'all' || skill.cat === filterCat) {
+                        const div = document.createElement('div');
+                        div.className = 'bg-white border border-slate-200 rounded-lg p-3 shadow-sm flex items-center gap-3 transition-all hover:shadow-md hover:border-blue-400';
+                        div.innerHTML = `<span class="text-xl">${skill.icon}</span> <span class="font-semibold text-slate-700 text-sm">${skill.name}</span>`;
+                        skillsGrid.appendChild(div);
+                    }
+                });
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Update active state styling
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-slate-800', 'text-white');
+                        b.classList.add('bg-slate-200', 'text-slate-700');
+                    });
+                    e.target.classList.remove('bg-slate-200', 'text-slate-700');
+                    e.target.classList.add('bg-slate-800', 'text-white');
+                    
+                    // Filter
+                    renderSkills(e.target.dataset.filter);
+                });
             });
 
-            const activeItem = document.getElementById(`mission-btn-${id}`);
-            if (activeItem) {
-                activeItem.classList.remove('border-slate-200', 'bg-white');
-                activeItem.classList.add('border-blue-600', 'bg-blue-50', 'shadow-md', 'ring-1', 'ring-blue-600/20');
+            renderSkills('all'); // Initial render
+
+
+            // --- 3. MISSIONS DATA & LOGIC ---
+            const missions = [
+                {
+                    id: 1,
+                    company: "Kerhis – Châteaulin",
+                    date: "Jan 2023 – Oct 2024",
+                    title: "Modernisation d'un ERP métier agricole",
+                    role: "Développeur Senior .NET / Expert Data",
+                    realizations: [
+                        "Audit et optimisation de requêtes SQL complexes, garantissant la fluidité de l'ERP malgré les forts volumes de données.",
+                        "Deveooppement de besoins métier"
+                    ],
+                    tech: ["C#", ".NET Framework","SQL Server", "Git"]
+                },
+                {
+                    id: 2,
+                    company: "VFI System – Lannion",
+                    date: "Fév 2020 – Oct 2022",
+                    title: "Solutions Vision & Automatisme (Industrie 4.0)",
+                    role: "Développeur Application & Vision",
+                    realizations: [
+                        "Création d'IHM de pilotage sous architecture WPF/MVVM, optimisées pour l'expérience utilisateur en atelier.",
+                        "Déploiement de solutions de métrologie via Cognex VisionPro et Halcon.",
+                        "Mise en œuvre de modèles de <strong>Deep Learning</strong> pour le contrôle qualité de packs batterie (défauts invisibles à l'algorithmique classique).",
+                        "Intégration de matériel Beckhoff et programmation LabView/Python pour le contrôle des cycles machine."
+                    ],
+                    tech: ["C#", "WPF", "MVVM", "LabView", "Python", "Cognex", "Halcon", "Beckhoff"]
+                },
+                {
+                    id: 3,
+                    company: "MK Automotive – Sablé-sur-Sarthe",
+                    date: "Fév 2016 – Mai 2019",
+                    title: "Système de traçabilité aéronautique (H24/7)",
+                    role: "Chef de Projet Informatique Industrielle",
+                    realizations: [
+                        "Maintenance évolutive d'applications de suivi de production critique sans interruption de service.",
+                        "Gestion de la base SQL Server et création de rapports automatisés (SSRS) pour indicateurs de production.",
+                        "Développement d'un portail de supervision sous ASP.NET pour le pilotage des flux."
+                    ],
+                    tech: ["ASP.NET", "C#", "SQL Server", "SSRS", "IIS"]
+                },
+                {
+                    id: 4,
+                    company: "Neopost Industrie – Le Lude",
+                    date: "Avr 2000 – Déc 2015",
+                    title: "Gestion des flux postaux mondiaux",
+                    role: "Développeur Logiciel & Bancs de Test",
+                    realizations: [
+                        "Création de bancs de test et outils de production en VB6, C++, C# et VB.NET.",
+                        "Interfaçage avec l'ERP SAP pour la remontée de données de traçabilité.",
+                        "Pilotage d'imprimantes Zebra pour l'étiquetage international et gestion tarifaire mondiale."
+                    ],
+                    tech: ["VB6", "C++", ".NET", "SAP", "SQL Server", "Oracle", "Zebra ZPL"]
+                }
+            ];
+
+            const missionList = document.getElementById('mission-list');
+            const missionDetails = document.getElementById('mission-details');
+
+            function renderMissionDetails(id) {
+                const mission = missions.find(m => m.id === id);
+                if (!mission) return;
+
+                // Render detail HTML
+                const techTags = mission.tech.map(t => `<span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded border border-blue-200">${t}</span>`).join('');
+                const listItems = mission.realizations.map(r => `<li class="flex gap-2 items-start"><span class="text-blue-500 mt-1">▹</span><span>${r}</span></li>`).join('');
+
+                missionDetails.innerHTML = `
+                    <div class="animate-fade-in">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-2xl font-bold text-slate-900 mb-1">${mission.company}</h3>
+                                <p class="text-slate-500 font-medium">${mission.date}</p>
+                            </div>
+                            <span class="bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                                ${mission.role}
+                            </span>
+                        </div>
+                        
+                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg mb-6 border-l-4 border-l-emerald-500">
+                            <p class="font-semibold text-slate-800">Projet : ${mission.title}</p>
+                        </div>
+
+                        <h4 class="font-bold text-slate-900 mb-3 text-lg border-b border-slate-100 pb-2">Réalisations Clés</h4>
+                        <ul class="space-y-3 text-slate-700 mb-8">
+                            ${listItems}
+                        </ul>
+
+                        <h4 class="font-bold text-slate-900 mb-3 text-lg">Environnement Technique</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${techTags}
+                        </div>
+                    </div>
+                `;
+
+                // Update active state in list
+                document.querySelectorAll('.mission-item').forEach(el => {
+                    el.classList.remove('border-blue-600', 'bg-blue-50', 'shadow-md');
+                    el.classList.add('border-slate-200', 'bg-white', 'hover:bg-slate-50');
+                });
+                const activeItem = document.getElementById(`mission-btn-${id}`);
+                activeItem.classList.remove('border-slate-200', 'bg-white', 'hover:bg-slate-50');
+                activeItem.classList.add('border-blue-600', 'bg-blue-50', 'shadow-md');
             }
-        }
 
-        // Init list
-        const listContainer = document.getElementById('mission-list');
-        missions.forEach(m => {
-            const btn = document.createElement('button');
-            btn.id = `mission-btn-${m.id}`;
-            btn.className = "mission-item w-full text-left p-5 rounded-xl border border-slate-200 bg-white transition-all duration-200 group relative overflow-hidden";
-            btn.innerHTML = `
-                <div class="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">${m.company}</div>
-                <div class="text-sm text-slate-500">${m.date}</div>
+            // Create Mission List Buttons
+            missions.forEach((m, index) => {
+                const btn = document.createElement('button');
+                btn.id = `mission-btn-${m.id}`;
+                btn.className = `mission-item relative z-10 w-full text-left p-4 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-all duration-200 group`;
+                btn.innerHTML = `
+                    <div class="font-bold text-slate-900 group-hover:text-blue-700 transition-colors">${m.company}</div>
+                    <div class="text-sm text-slate-500">${m.date}</div>
+                `;
+                btn.addEventListener('click', () => renderMissionDetails(m.id));
+                missionList.appendChild(btn);
+            });
+
+            // Add simple fade-in animation style dynamically
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+                .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
             `;
-            btn.onclick = () => renderMissionDetails(m.id);
-            listContainer.appendChild(btn);
-        });
+            document.head.appendChild(style);
 
-        if (missions.length > 0) renderMissionDetails(missions[0].id);
+            // Select first mission by default
+            if(missions.length > 0) renderMissionDetails(missions[0].id);
+
+        });
     </script>
 </body>
 </html>
